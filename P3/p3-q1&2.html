@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS5002</title>
+
+</head>
+<body>
+
+<script>
+//Question 1
+var books = {
+    isbns: ["9780744016697", "9780099549482", "9780744016680",  "9780062409904", "9780099529125", "9781785150289", "9780554579901", 
+    "9781853260001", "9781784871894"],
+    titles: ["The Legend of Zelda: Tri Force Heroes", "To Kill a Mockingbird", "The Legend of Zelda: Tri Force Heroes", "Go Set A Watchman",
+    "Catch-22","Go Set A Watchman", "A Clash of Kings", "Pride and Prejudice", "Casino Royale"],
+    authors: ["Prima Games", "Harper Lee", "Prima Games", "Harper Lee", "Joseph Heller", "Harper Lee", "George R. R. Martin", "Jane Austin", 
+    "Ian Fleming"],
+    formats: ["Hardcover", "Paperback", "Paperback", "Audio Book CD", "Paperback", "Hardcover", "Paperback", "Paperback", "Hardcover"],
+    prices: [14.99, 4.99, 9.99, 10.89, 6.29, 9.89, 4.95, 1.99, 6.79],
+    stocks: [2, 3, 1, 2, 0, 3, 5, 4, 1]
+}
+
+
+var printBook = function(i) {
+
+    books.isbns[i] = books.isbns[i].substring(0,3) + '-'+books.isbns[i].substring(3,4) + '-'+ 
+                     books.isbns[i].substring(4,7) + '-'+books.isbns[i].substring(7,12) + '-'+ 
+                     books.isbns[i].substring(12,13);
+
+    console.log(`[${books.isbns[i]}] ${books.titles[i].italics()}, written by ${books.authors[i]}, format: ${books.formats[i]}, price: £${books.prices[i]}, current stock: ${books.stocks[i]}`);
+}
+
+var printAllBooks = function () {
+    for (var i = 0; i < books.isbns.length; i++) {printBook(i);}
+}
+
+//printAllBooks();
+
+
+
+var sell = function (isbn) {
+    var index = books.isbns.indexOf(isbn);
+
+    if (index !== -1) {
+        books.stocks[index] !== 0
+        ?   books.stocks[index]--
+        :   alert("There is no stocks.");
+    } else alert("This book is not found in this database.");
+}
+// console.log(books.stocks)
+// var isbn = prompt('please input the ISBN of the sold book: ');
+// sell(isbn);
+// console.log(books.stocks);
+
+
+
+var printByTitle = function(title) {
+    books.titles.forEach(function(t, i) {
+        if(t === title){
+            printBook(i)
+        }
+    });
+}
+//var title = prompt('please input the title of the sold book: ');
+//printByTitle(title);
+
+
+
+var printByAuthor = function(author) {
+    books.authors.forEach(function(a, i) {
+        if(a === author){
+            printBook(i)
+        }
+    });
+}
+//var author = prompt('Please input an author: ');
+//printByAuthor(author);
+
+
+var printOverPrice = function(price) {
+
+    books.prices.forEach(function(p, i) {
+        if(p >= price){
+            printBook(i);
+        }
+    });
+}
+//var price = prompt('Please input your minimum price: ');
+//printOverPrice(price);
+
+
+var search = function(text) {
+    for(var i = 0; i < books.titles.length; i++) {
+        if(books.titles[i].includes(text) || books.authors[i].includes(text)){
+            printBook(i);
+        }
+    }
+}
+//var text = prompt('Please input the text you want to search: ');
+//search(text);
+
+
+
+
+
+
+//Question 2
+
+var validISBN = function(isbn){
+    var product = 0;
+    for (var i = 0; i < isbn.length-1; i++){
+        (i % 2 === 0)
+            ? product += +isbn[i]
+            : product += +isbn[i] * 3;
+    }
+
+    console.log((10 - (product % 10)) === +isbn[isbn.length-1]) || (((product % 10 === 0) && +isbn[isbn.length-1] === 0));
+    return ((10 - (product % 10)) === +isbn[isbn.length-1] )|| (((product % 10 === 0) && +isbn[isbn.length-1] === 0));
+}
+//var isbn = prompt('Please input a ISBN: ').split("").map(x=>+x);
+//validISBN(isbn);
+
+
+
+var validateISBNs = function(){
+    for (var a = 0; a < books.isbns.length; a++){
+        if (validISBN(books.isbns[a])) {
+            printBook(a);
+        }else{
+            console.log(`${books.titles[a].italics()}, [${books.isbns[a]}] dose not have a valid isbn.`);
+            books.isbns.splice(a, 1);
+            books.titles.splice(a, 1);
+            books.authors.splice(a, 1);
+            books.formats.splice(a, 1);
+            books.prices.splice(a, 1);
+            books.stocks.splice(a, 1);
+        }
+    }
+}
+//validateISBNs();
+
+
+
+// Question 3
+var newBooks = [
+    [books.isbns[0],books.titles[0],books.authors[0],books.formats[0],books.prices[0],books.stocks[0]],
+    [books.isbns[1],books.titles[1],books.authors[1],books.formats[1],books.prices[1],books.stocks[1]],
+    [books.isbns[2],books.titles[2],books.authors[2],books.formats[2],books.prices[2],books.stocks[2]],
+    [books.isbns[3],books.titles[3],books.authors[3],books.formats[3],books.prices[3],books.stocks[3]],
+    [books.isbns[4],books.titles[4],books.authors[4],books.formats[4],books.prices[4],books.stocks[4]],
+    [books.isbns[5],books.titles[5],books.authors[5],books.formats[5],books.prices[5],books.stocks[5]],
+    [books.isbns[6],books.titles[6],books.authors[6],books.formats[6],books.prices[6],books.stocks[6]],
+    [books.isbns[7],books.titles[7],books.authors[7],books.formats[7],books.prices[7],books.stocks[7]],
+    [books.isbns[8],books.titles[8],books.authors[8],books.formats[8],books.prices[8],books.stocks[8]]
+]
+
+//Buble Sort 
+var printAllBooksBubleSorted = function(sortedBy){
+    var targetIdx = 0;
+    switch(sortedBy){
+        case 'price':
+            targetIdx = 4;
+            break;
+
+        case 'title':
+            targetIdx = 1;
+            break;
+
+        case 'author':
+            targetIdx = 2;
+            break;
+    }
+
+    for (var i = 0 ; i < newBooks.length; i++) {
+        for (var j = 0; j < newBooks.length-i-1; j++){
+            if (newBooks[j][targetIdx] > newBooks[j+1][targetIdx]) {
+                var temp = newBooks[j];
+                newBooks[j] = newBooks[j+1];
+                newBooks[j+1] = temp;
+            }
+        }
+    }   
+    console.log(newBooks);
+}
+
+printAllBooksBubleSorted('price');
+
+
+//Selection Sort
+var printAllBooksSelectionSorted = function(sortedBy){
+    var targetIdx = 0;
+    switch(sortedBy){
+        case 'price':
+            targetIdx = 4;
+            break;
+
+        case 'title':
+            targetIdx = 1;
+            break;
+
+        case 'author':
+            targetIdx = 2;
+            break;
+    }
+
+    newBooks.forEach(function(item, i){
+        var min = i;
+        for (var j = 0; j < newBooks.length; j++) {
+            if (newBooks[j][targetIdx] < newBooks[min][targetIdx]) {
+                min = j;
+            }
+            if(min != i){
+                var temp = newBooks[j];
+                newBooks[j] = newBooks[min];
+                newBooks[min] = temp;
+            }
+        };
+    });
+    console.log(newBooks);
+}
+
+//printAllBooksSelectionSorted('price');
+
+    </script>
+    
+</body>
+</html>
